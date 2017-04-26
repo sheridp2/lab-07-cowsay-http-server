@@ -12,7 +12,7 @@ In a second terminal window run
 ```
 http POST :3000/cowsay text=hello
 ```
-to POST the coe saying hello to the server. Hello can be replaced by whatever you wabt the cow to say.
+to POST the coe saying hello to the server. Hello can be replaced by whatever you what the turtle to say.
 
 In the console type
 ```
