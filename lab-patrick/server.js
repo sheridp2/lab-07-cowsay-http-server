@@ -14,7 +14,6 @@ const server = module.exports = http.createServer(function(req, res) {
   req.url.query = queryString.parse(req.url.query);
 
   if(req.method === 'POST') {
-    // curl -H "Content-Type: application/json" -X POST -d '{"text": "moo!"}' http://localhost:3000/cowsay
     if(req.url.pathname === '/cowsay') {
       bodyParser(req, function(err) {
         if(err) console.error(err);
@@ -26,13 +25,14 @@ const server = module.exports = http.createServer(function(req, res) {
     }
     else if(req.url.pathname === '/'){
       res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.write('Hello world');
+      let message = cowsay.say({text: 'hello world', f: 'turtle'} );
+      res.write(message);
       res.end();
       return;
     }
     else {
       let message = cowsay.say(
-        {text: 'bad request\ntry localhost:3000/cowsay with a proper body'}
+        {text: 'bad request\ntry localhost:3000/cowsay with a proper body',f: 'turtle' }
       );
       res.writeHead(400, {'Content-Type': 'text/plain'});
       res.write(message);
@@ -43,9 +43,7 @@ const server = module.exports = http.createServer(function(req, res) {
   if(req.method === 'GET') {
     if(req.url.pathname === '/cowsay'){
       if(!req.url.query.text){
-        let message = cowsay.say(
-          {text: 'bad request\ntry localhost:3000/cowsay with a proper body'}
-        );
+        let message = cowsay.say({text: 'bad request\ntry localhost:3000/cowsay with a proper body'});
         res.writeHead(400, {'Content-Type': 'text/plain'});
         res.write(message);
         res.end();
@@ -58,10 +56,11 @@ const server = module.exports = http.createServer(function(req, res) {
   }
   if(req.url.pathname === '/'){
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write('Hello world');
+    let message = cowsay.say({text: 'hello world', f: 'turtle'} );
+    res.write(message);
     res.end();
     return;
   }
 });
 
-server.listen(PORT, () => console.log(`Listening on port, ${PORT}`));
+server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
